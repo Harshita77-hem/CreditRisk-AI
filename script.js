@@ -3,13 +3,7 @@
 /* ---------- API base URL ----------
    Priority: window.CREDITAI_API_BASE (set it in index.html if you host the
    frontend separately) > local dev on another port > same origin (FastAPI serves the page). */
-const API_BASE_URL = (() => {
-  if (typeof window.CREDITAI_API_BASE === "string") return window.CREDITAI_API_BASE.replace(/\/$/, "");
-  const local = ["localhost", "127.0.0.1", ""].includes(location.hostname);
-  if (local && location.port !== "8000") return "http://127.0.0.1:8000";
-  return ""; // same origin (e.g. https://your-app.onrender.com)
-})();
-
+const API_BASE_URL = "https://creditrisk-ai-51f6.onrender.com/";
 /* Exact backend field names. [id, type] */
 const FIELDS = [
   ["person_age", "int"], ["person_income", "float"], ["person_home_ownership", "str"],
