@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CreditAI · Credit risk intelligence</title>
+<meta name="description" content="CreditAI estimates loan default risk with a trained machine-learning model and explores what-if and stress scenarios.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="bg" aria-hidden="true"><i class="orb o1"></i><i class="orb o2"></i></div>
+
+<header class="nav">
+  <a class="brand" href="#home" aria-label="CreditAI home"><svg viewBox="0 0 24 24" width="26" height="26"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#22d3ee"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs><path d="M12 2 3 6v6c0 5 3.8 8.5 9 10 5.2-1.500 9-5 9-10V6z" fill="none" stroke="url(#lg)" stroke-width="1.800"/><path d="M8 13l3 3 5-6" fill="none" stroke="url(#lg)" stroke-width="1.800" stroke-linecap="round" stroke-linejoin="round"/></svg>CreditAI</a>
+  <button class="burger" id="burger" aria-label="Toggle menu" aria-expanded="false" aria-controls="menu"><span></span><span></span></button>
+  <nav id="menu" class="menu" aria-label="Main">
+    <a href="#home">Home</a><a href="#assess">Risk Assessment</a><a href="#whatif">What-If Analysis</a><a href="#stress">Stress Testing</a><a href="#how">How It Works</a><a href="#about">About Model</a>
+    <a class="btn btn-sm" href="#assess">Start Assessment</a>
+  </nav>
+</header>
+
+<main>
+<section id="home" class="hero">
+  <div class="hero-copy">
+    <h1>Know the risk before the loan is made.</h1>
+    <p>CreditAI reads an applicant's financial and credit profile and estimates default risk with a trained machine-learning model. Then it shows how that estimate moves under what-if changes and financial stress.</p>
+    <a class="btn" href="#assess">Assess Credit Risk</a>
+    <p class="fine">Demonstration project. Not a bank, lender or credit bureau.</p>
+  </div>
+  <svg class="hero-art" id="orb" viewBox="0 0 400 400" role="img" aria-label="Interactive credit risk orb. Move the pointer over it, or press Enter." tabindex="0">
+    <defs>
+      <linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#22d3ee"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient>
+      <radialGradient id="gl"><stop stop-color="#4f8cff" stop-opacity=".45"/><stop offset="1" stop-color="#4f8cff" stop-opacity="0"/></radialGradient>
+    </defs>
+    <circle id="glow" cx="200" cy="200" r="110" fill="url(#gl)"/>
+    <g fill="none" stroke="url(#hg)" stroke-width="1.5">
+      <circle cx="200" cy="200" r="150" opacity=".25"/><circle cx="200" cy="200" r="105" opacity=".4"/>
+      <circle cx="200" cy="200" r="60" opacity=".8" class="core"/>
+    </g>
+    <g id="rA"><path d="M200 50a150 150 0 0 1 130 75" fill="none" stroke="url(#hg)" stroke-width="5" stroke-linecap="round"/><circle cx="330" cy="125" r="6" fill="#22d3ee"/></g>
+    <g id="rB"><path d="M95 200a105 105 0 0 1 105-105" fill="none" stroke="url(#hg)" stroke-width="4" stroke-linecap="round" opacity=".7"/><circle cx="95" cy="200" r="5" fill="#8b5cf6"/></g>
+    <g id="rC"><circle cx="200" cy="260" r="4" fill="#22d3ee"/></g>
+    <g id="ripples" fill="none" stroke="#22d3ee" stroke-width="2"></g>
+    <path id="check" d="M185 205l11 11 20-24" fill="none" stroke="#e8f1ff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</section>
+
+<section id="assess" class="sec reveal">
+  <div class="head"><h2>Risk assessment</h2><p>Enter the applicant's details. The model scores them and the dashboard below fills in.</p></div>
+  <form id="form" class="glass form" novalidate>
+    <fieldset>
+      <legend>Applicant profile</legend>
+      <label class="f">Age<span class="hint">Applicant's age in years</span><input id="person_age" type="number" min="18" max="100" step="1" placeholder="e.g. 29" required></label>
+      <label class="f">Annual income<span class="hint">Gross yearly income</span><input id="person_income" type="number" min="1" step="any" placeholder="e.g. 54000" required></label>
+      <label class="f">Employment length (years)<span class="hint">Years in current employment</span><input id="person_emp_length" type="number" min="0" max="80" step="any" placeholder="e.g. 4" required></label>
+      <label class="f">Home ownership<span class="hint">Current housing status</span><select id="person_home_ownership" required><option value="">Select…</option><option>RENT</option><option>OWN</option><option>MORTGAGE</option><option>OTHER</option></select></label>
+    </fieldset>
+    <fieldset>
+      <legend>Loan information</legend>
+      <label class="f">Loan amount<span class="hint">Amount requested</span><input id="loan_amnt" type="number" min="1" step="any" placeholder="e.g. 12000" required></label>
+      <label class="f">Interest rate (%)<span class="hint">Annual rate offered</span><input id="loan_int_rate" type="number" min="0" max="100" step="any" placeholder="e.g. 11.5" required></label>
+      <label class="f">Loan intent<span class="hint">Purpose of the loan</span><select id="loan_intent" required><option value="">Select…</option><option value="PERSONAL">Personal</option><option value="EDUCATION">Education</option><option value="MEDICAL">Medical</option><option value="VENTURE">Venture</option><option value="HOMEIMPROVEMENT">Home improvement</option><option value="DEBTCONSOLIDATION">Debt consolidation</option></select></label>
+      <label class="f">Loan grade<span class="hint">A is best, G is weakest</span><select id="loan_grade" required><option value="">Select…</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option></select></label>
+      <label class="f">Loan-to-income ratio (automatic)<span class="hint">Calculated as loan amount ÷ annual income. Updates as you type.</span><input id="loan_percent_income" type="text" readonly tabindex="-1" placeholder="Calculated automatically" aria-live="polite"><span class="ltiwarn" id="ltiWarn" role="status" hidden></span></label>
+    </fieldset>
+    <fieldset>
+      <legend>Credit history</legend>
+      <label class="f">Previous default on file<span class="hint">Any recorded past default</span><select id="cb_person_default_on_file" required><option value="">Select…</option><option value="N">No (N)</option><option value="Y">Yes (Y)</option></select></label>
+      <label class="f">Credit history length (years)<span class="hint">Length of credit history</span><input id="cb_person_cred_hist_length" type="number" min="0" max="80" step="1" placeholder="e.g. 6" required></label>
+    </fieldset>
+    <div class="actions">
+      <button class="btn" id="submit" type="submit"><span class="spin-s" aria-hidden="true"></span><span id="submitText">Predict Default Risk</span></button>
+      <button class="btn ghost" id="reset" type="button">Reset</button>
+    </div>
+    <div id="error" class="alert" role="alert" hidden></div>
+  </form>
+</section>
+
+<section id="result" class="sec res">
+  <div class="head"><h2>Current risk</h2><p>The model compares the estimated default probability with the selected decision threshold to determine the classification.</p></div>
+  <div class="grid2">
+    <article class="glass gauge-card">
+      <div class="gauge">
+        <svg viewBox="0 0 200 200" role="img" id="gaugeSvg" aria-label="Default probability gauge">
+          <circle cx="100" cy="100" r="80" class="g-track"/>
+          <circle cx="100" cy="100" r="80" class="g-fill" id="gFill" transform="rotate(-90 100 100)"/>
+          <g id="gTick" transform="translate(100 100)"><line x1="0" y1="-92" x2="0" y2="-66" class="g-tick"/></g>
+        </svg>
+        <div class="g-text"><small>Default probability</small><strong id="gNum">0.0%</strong></div>
+      </div>
+      <div id="badge" class="badge"></div>
+      <div class="track" aria-hidden="true"><div class="fill" id="pFill"></div><div class="mark" id="pMark"><span>Threshold</span></div></div>
+      <p class="meta">Decision threshold: <b id="thr"></b> · Classification: <b id="cls"></b></p>
+    </article>
+    <article class="glass">
+      <h3>Applicant summary</h3>
+      <dl id="summary" class="summary"></dl>
+      <p class="ltiwarn" id="ltiNote" role="note" hidden></p>
+    </article>
+  </div>
+</section>
+
+<section id="whatif" class="sec reveal">
+  <div class="head"><h2>What-If Risk Analysis</h2><p>Explore how hypothetical changes to an applicant profile affect the model's estimated risk.</p></div>
+  <div class="empty glass">Run a risk assessment to see model-based what-if scenarios here.</div>
+  <div class="res">
+    <p class="note">These are model-based what-if scenarios, not causal claims. Under each hypothetical scenario, the model re-scores the profile with that single change.</p>
+    <div class="grid2" id="cfHighlights"></div>
+    <div class="glass rows" id="cfRows"></div>
+  </div>
+</section>
+
+<section id="stress" class="sec reveal">
+  <div class="head"><h2>Financial Stress Testing</h2><p>Test how the estimated risk behaves under adverse financial scenarios.</p></div>
+  <div class="empty glass">Run a risk assessment to see stress-test results here.</div>
+  <div class="res">
+    <p class="note">Bars show the model's estimated risk under each hypothetical scenario. The vertical line marks the decision threshold.</p>
+    <div class="glass rows" id="stRows"></div>
+    <article class="combined" id="combined"></article>
+  </div>
+</section>
+
+<section id="decision" class="sec res reveal">
+  <div class="head"><h2>Risk Decision Dashboard</h2><p>One view of the whole analysis.</p></div>
+  <div class="tiers" id="tiers"></div>
+  <p class="disclaimer">These scenarios are hypothetical model-based simulations and should not be interpreted as causal effects, financial advice, or guaranteed outcomes.</p>
+</section>
+
+<section id="how" class="sec reveal">
+  <div class="head"><h2>How it works</h2></div>
+  <ol class="steps">
+    <li class="glass"><b>1. Enter the profile</b><span>Eleven applicant, loan and credit-history fields go to the risk engine as they are.</span></li>
+    <li class="glass"><b>2. The model scores it</b><span>A trained model returns a default probability, compared with a fixed decision threshold.</span></li>
+    <li class="glass"><b>3. Scenarios are re-scored</b><span>The backend re-runs the same model on altered profiles for what-if and stress views.</span></li>
+    <li class="glass"><b>4. The dashboard summarises</b><span>This page only displays what the API returns. It calculates no risk itself.</span></li>
+  </ol>
+</section>
+
+<section id="about" class="sec reveal">
+  <div class="head"><h2>About the model</h2></div>
+  <div class="glass about">
+    <p>CreditAI is a portfolio project. A pre-trained machine-learning classifier is served through a FastAPI backend, and this interface consumes the <code>/risk-analysis</code> endpoint.</p>
+    <p class="disclaimer">This system provides machine-learning-based risk estimates for demonstration and decision-support purposes. Counterfactual and stress-test results represent hypothetical model scenarios and should not be interpreted as causal predictions or actual lending decisions. These scenarios are hypothetical model-based simulations and should not be interpreted as causal effects, financial advice, or guaranteed outcomes.</p>
+  </div>
+</section>
+</main>
+<footer class="foot">CreditAI · Machine-learning credit risk demo</footer>
+<script src="script.js"></script>
+</body>
+</html>
